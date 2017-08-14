@@ -11,15 +11,15 @@
 //**************
 //Special types
 struct Node {
-	int val;
-	int order;
-	struct Node *next;
+  int val;
+  int order;
+  struct Node *next;
 };
 
 
 typedef struct treeNode {
-    int val;
-    struct treeNode *left, *right;
+  int val;
+  struct treeNode *left, *right;
 } tNode;
 
 //*****************
@@ -57,18 +57,18 @@ char *disclaimer = "This challenge has been taken from \"Computer Systems: A Pro
 //*********
 //Routines
 void sig_handler(int sig){
-	printf("\nSo you think you can stop the bomb with ctrl-c, do you?\n");
-	sleep(3);
-	printf("Well... ");
-	fflush(stdout);
-	sleep(1);
-	printf("OK. :-)\n");
-	exit(16);
+  printf("\nSo you think you can stop the bomb with ctrl-c, do you?\n");
+  sleep(3);
+  printf("Well... ");
+  fflush(stdout);
+  sleep(1);
+  printf("OK. :-)\n");
+  exit(16);
 }
 
 
 void initialize_bomb(){
-	signal(SIGINT, sig_handler);
+  signal(SIGINT, sig_handler);
 }
 
 
@@ -93,8 +93,8 @@ int blank_line(char *buf){
         break;
       if (!*mov_buf){
         result = 1;
-				return result;
-			}
+	return result;
+      }
     }
     result = 0;
   }
@@ -128,7 +128,7 @@ char *read_line(){
     if (input_stream == stdin){
       printf("Error: premature EOF on stdin\n");
       explode_bomb();
-	}
+    }
     input_stream = stdin;
     if (!skip(input_stream)){
       printf("Error: premature EOF on stdin\n");
@@ -142,10 +142,10 @@ char *read_line(){
     explode_bomb();
   }
 
-	offset = BUFSIZE * num_input_strings;
-	if(buf_phases[offset + length - 1] == '\n')
-		buf_phases[offset + length - 1] = 0;
-	line = offset + buf_phases;
+  offset = BUFSIZE * num_input_strings;
+  if(buf_phases[offset + length - 1] == '\n')
+    buf_phases[offset + length - 1] = 0;
+  line = offset + buf_phases;
   ++num_input_strings;
   return line;
 }
@@ -348,8 +348,8 @@ int phase_5(char *input){
 
 
 int phase_6(char *input){
-	int read_nums[6];
-	int index1;
+  int read_nums[6];
+  int index1;
   int i;
   int index2;
   struct Node *node_ptr;
@@ -358,15 +358,14 @@ int phase_6(char *input){
   int index3;
   struct Node *next_node;
   struct Node *some_node;
-	int index4;
+  int index4;
   int result;
   struct Node *first_node;
   struct Node *ptrs[6];
 
-
   read_six_numbers(input, read_nums);
 
-	index1 = 0;
+  index1 = 0;
   do{
     if ((unsigned int)(read_nums[index1] - 1) > 5)
       explode_bomb();
@@ -379,8 +378,7 @@ int phase_6(char *input){
   }
   while ( index1 <= 5 );
 
-
-	//Fetch pointers to every node, in the order given by input
+  //Fetch pointers to every node, in the order given by input
   index2 = 0;
   do{
     node_ptr = &node1;
@@ -391,7 +389,7 @@ int phase_6(char *input){
   while ( index2 <= 5 );
 
 
-	//Overwrite next_node_ptr to reflect input order
+  //Overwrite next_node_ptr to reflect input order
   current_node = ptrs[0];
   first_node = ptrs[0];
   index3 = 1;
@@ -406,7 +404,7 @@ int phase_6(char *input){
   next_node->next = NULL;
 
 
-	//Check they are in descendent order
+  //Check they are in descendent order
   some_node = first_node;
   index4 = 0;
   do
@@ -418,7 +416,6 @@ int phase_6(char *input){
     ++index4;
   }
   while ( index4 <= 4 );
-
 
   return result;
 }
@@ -445,20 +442,20 @@ int fun7(tNode *node, int val){
 
 
 void secret_phase(){
-	char *input;
-	int target;
+  char *input;
+  int target;
 
-	input = read_line();
-	target = atoi(input);
+  input = read_line();
+  target = atoi(input);
 
-	if ((unsigned int)(target - 1) > 1000)
-		explode_bomb();
+  if ((unsigned int)(target - 1) > 1000)
+    explode_bomb();
 
-	if (fun7(&n1, target) != 5)
-		explode_bomb();
+  if (fun7(&n1, target) != 5)
+    explode_bomb();
 
-	printf("Wow! You've defused the secret stage!\n");
-	//phase_defused();
+  printf("Wow! You've defused the secret stage!\n");
+  //phase_defused();
 }
 
 
@@ -466,8 +463,8 @@ void phase_defused(){
   int v0;
   char v1[12];
 
-	if (num_input_strings == 6){
-		if (sscanf(&buf_phases[BUFSIZE * SECRET], "%d %s", &v0, v1) == 2 && !strings_not_equal(v1, "austinpowers")){
+  if (num_input_strings == 6){
+    if (sscanf(&buf_phases[BUFSIZE * SECRET], "%d %s", &v0, v1) == 2 && !strings_not_equal(v1, "austinpowers")){
       printf("Curses, you've found the secret phase!\n");
       printf("But finding it and solving it are quite different...\n");
       secret_phase();
@@ -479,51 +476,51 @@ void phase_defused(){
 
 int main(int argc, char **argv){
 
-	switch(argc){
-		case 1:	//No input file, use stdin
-			input_stream = stdin;
-			break;
+  switch(argc){
+    case 1:  //No input file, use stdin
+      input_stream = stdin;
+      break;
 
-		case 2:	//Read from input file
-			if(!(input_stream = fopen(argv[1], "r"))){
-				printf("%s: Error: Couldn't open %s\n", argv[0], argv[1]);
-				exit(EXITSTATUS);
-			}
-			break;
+    case 2:  //Read from input file
+      if(!(input_stream = fopen(argv[1], "r"))){
+        printf("%s: Error: Couldn't open %s\n", argv[0], argv[1]);
+        exit(EXITSTATUS);
+      }
+      break;
 
-		default://wrong number of arguments
-			printf("Usage: %s [<input_file>]", argv[0]);
-			exit(EXITSTATUS);
-	}
+    default:  //wrong number of arguments
+      printf("Usage: %s [<input_file>]", argv[0]);
+      exit(EXITSTATUS);
+  }
 
-	initialize_bomb();
+  initialize_bomb();
 
-	printf("\nWelcome to my fiendish little bomb. You have 6 phases with\n");
-	printf("which to blow yourself up. Have a nice day!\n\n");
+  printf("\nWelcome to my fiendish little bomb. You have 6 phases with\n");
+  printf("which to blow yourself up. Have a nice day!\n\n");
 
-	phase_1(read_line());
-	phase_defused();
+  phase_1(read_line());
+  phase_defused();
   printf("Phase 1 defused. How about the next one?\n");
 
-	phase_2(read_line());
-	phase_defused();
+  phase_2(read_line());
+  phase_defused();
   printf("That's number 2. Keep going!\n");
 
-	phase_3(read_line());
+  phase_3(read_line());
   phase_defused();
   printf("Halfway there!\n");
 
-	phase_4(read_line());
+  phase_4(read_line());
   phase_defused();
   printf("So you got that one. Try this one.\n");
 
-	phase_5(read_line());
+  phase_5(read_line());
   phase_defused();
   printf("Good work!  On to the next...\n");
 
-	phase_6(read_line());
+  phase_6(read_line());
   phase_defused();
 
-	fclose(input_stream);
-	return 0;
+  fclose(input_stream);
+  return 0;
 }
